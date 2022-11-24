@@ -1,4 +1,4 @@
-package com.example.heart_bpm_example
+package com.example.flutter_heart_bpm
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -51,11 +51,11 @@ class _HomePageState extends State<HomePage> {
                     onRawData: (value) {
                       setState(() {
                         if (data.length >= 100) data.removeAt(0);
-                        data.add(value);
+                        data.add(value.first);
                       });
                       // chart = BPMChart(data);
                     },
-                    onBPM: (value) => setState(() {
+                    onBPM: (value, kek) => setState(() {
                       if (bpmValues.length >= 100) bpmValues.removeAt(0);
                       bpmValues.add(SensorValue(
                           value: value.toDouble(), time: DateTime.now()));

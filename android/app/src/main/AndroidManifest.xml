@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.heart_bpm_example">
+    package="com.example.flutter_heart_bpm">
    <application
-        android:label="heart_bpm_example"
+        android:label="flutter_heart_bpm"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

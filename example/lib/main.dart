@@ -27,10 +27,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<SensorValue> data = [];
+  List<SensorValue> fft = [];
   List<SensorValue> bpmValues = [];
   //  Widget chart = BPMChart(data);
 
   bool isBPMEnabled = false;
+  int bpm = 0;
   Widget? dialog;
 
   @override
@@ -50,39 +52,52 @@ class _HomePageState extends State<HomePage> {
                     layoutType: HeartBPMDialogLayoutType.circle,
                     onRawData: (value) {
                       setState(() {
-                        if (data.length >= 100) data.removeAt(0);
-                        data.add(value);
+                        data.clear();
+                        data.addAll(value);
                       });
                       // chart = BPMChart(data);
                     },
-                    onBPM: (value) => setState(() {
+                    onFFT: (value) {
+                      setState(() {
+                        fft.clear();
+                        fft.addAll(value);
+                      });
+                      // chart = BPMChart(data);
+                    },
+                    onBPM: (value, weight) => setState(() {
+                      setState(() {
+                        bpm = value;
+                      });
                       if (bpmValues.length >= 100) bpmValues.removeAt(0);
                       bpmValues.add(SensorValue(
                           value: value.toDouble(), time: DateTime.now()));
                     }),
-                    // sampleDelay: 1000 ~/ 20,
-                    // child: Container(
-                    //   height: 50,
-                    //   width: 100,
-                    //   child: BPMChart(data),
-                    // ),
+                    onNoFingerDetected: () {},
                   ),
                 )
               : SizedBox(),
           isBPMEnabled && data.isNotEmpty
               ? Container(
                   decoration: BoxDecoration(border: Border.all()),
-                  height: 180,
+                  height: 100,
                   child: BPMChart(data),
                 )
               : SizedBox(),
           isBPMEnabled && bpmValues.isNotEmpty
               ? Container(
                   decoration: BoxDecoration(border: Border.all()),
-                  constraints: BoxConstraints.expand(height: 180),
+                  constraints: BoxConstraints.expand(height: 100),
                   child: BPMChart(bpmValues),
                 )
               : SizedBox(),
+          fft.isNotEmpty
+              ? Container(
+                  decoration: BoxDecoration(border: Border.all()),
+                  constraints: BoxConstraints.expand(height: 100),
+                  child: BPMChart(fft),
+                )
+              : SizedBox(),
+          Text(bpm.toString()),
           Center(
             child: ElevatedButton.icon(
               icon: Icon(Icons.favorite_rounded),
